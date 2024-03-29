@@ -9,11 +9,12 @@ public class plantAngry : MonoBehaviour
     public Transform _bulletPos;
 
     public float _timer;
-    Animator _Animator;
+    private Animator _Animator;
     // Start is called before the first frame update
     void Start()
     {
         _Animator = GetComponent<Animator>();
+        _timer = 0;
     }
 
     // Update is called once per frame
@@ -23,12 +24,12 @@ public class plantAngry : MonoBehaviour
         if(_timer > 3f)
         {
             _Animator.SetTrigger("atk");
-            _timer = 0.0f;
+            _timer = 0;
         }
     }
 
     private void plainShoot()
     {
-        Instantiate(_bullet, _bulletPos.position, Quaternion.identity);
+        Instantiate(_bullet, _bulletPos.position, Quaternion.identity, transform);
     }
 }

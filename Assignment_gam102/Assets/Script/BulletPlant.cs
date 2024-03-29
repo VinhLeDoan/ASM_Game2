@@ -17,4 +17,16 @@ public class BulletPlant : MonoBehaviour
     {
         rb.velocity = new Vector2(-5f, rb.velocity.y);
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {        
+            Destroy(collision.gameObject);
+            Destroy(gameObject);
+            Time.timeScale = 0.0f;
+        }
+        else if(collision.gameObject.CompareTag("Ground"))
+            Destroy(gameObject);
+    }
 }
