@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class NewBehaviourScript : MonoBehaviour
+
+public class randomMap : MonoBehaviour
 {
     public List<GameObject> listGround;
     public List<GameObject> listGold;

@@ -8,6 +8,9 @@ TagManager:
   - Bullet
   - Ground
   - fence
+  - Boar
+  - Flower
+  - BulletCoin
   layers:
   - Default
   - TransparentFX

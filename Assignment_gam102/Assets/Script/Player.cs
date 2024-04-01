@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PlayerMove : MonoBehaviour
@@ -21,8 +22,20 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private LayerMask whatIsGround;
     private bool isGrounded;
 
+    [Header("Bullet")]
+    public GameObject _bullet;
+    public Transform _bulletPos;
+
     public Text Diem;
     int Score = 0;
+
+    public GameObject panelEndGame;
+
+    //save
+    public static PlayerMove instance;
+    private const string SAVE_1 = "save_1";
+    private const string SAVE_2 = "save_2";
+    private const string SAVE_3 = "save_3";
 
     // Start is called before the first frame update
     void Start()
@@ -30,6 +43,7 @@ public class PlayerMove : MonoBehaviour
         Diem = GameObject.Find("Diem").GetComponent<Text>();
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+        this.LoadSaveGame();
     }
 
     // Update is called once per frame
@@ -40,7 +54,17 @@ public class PlayerMove : MonoBehaviour
         CheckInput();
         CollisionCheck();
         AnimatorController();
+        Shoot();
 
+    }
+    private void OnApplicationQuit()
+    {
+        this.SaveGame();
+    }
+    private void Awake()
+    {
+        if (PlayerMove.instance != null) Debug.Log("Only 1 Save allow");
+        PlayerMove.instance = this;
     }
     public void OnTriggerEnter2D(Collider2D collision)
     {
@@ -51,9 +75,49 @@ public class PlayerMove : MonoBehaviour
             collision.gameObject.SetActive(false);
             Diem.text = "Coin: " + Score.ToString();
         }
+        else if(collision.gameObject.CompareTag("Bullet"))
+        {
+            panelEndGame.SetActive(true);
+        }
 
     }
-  
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Boar") || collision.gameObject.CompareTag("Flower"))
+        {
+            panelEndGame.SetActive(true);
+        }
+        
+    }
+
+    public void RestartGame()
+    {
+        panelEndGame.SetActive(false);
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void QuitGame()
+    {
+        SceneManager.LoadScene(0);
+    }
+
+    private string GetSaveName()
+    {
+        return PlayerMove.SAVE_1;
+    }
+    public void LoadSaveGame()
+    {
+        string stringSave = PlayerPrefs.GetString(this.GetSaveName());
+        Debug.Log("LoadSaveGame: " + stringSave);
+    }
+    public void SaveGame()
+    {
+        Debug.Log("SaveGame");
+        string stringSave = Score.ToString();
+        PlayerPrefs.SetString(this.GetSaveName(), stringSave);
+    }
+
 
     private void AnimatorController()
     {
@@ -74,6 +138,11 @@ public class PlayerMove : MonoBehaviour
         xInput = UnityEngine.Input.GetAxisRaw("Horizontal");
         if (Input.GetKeyDown(KeyCode.Space))
             Jump();
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Time.timeScale = 0f;
+            panelEndGame.SetActive(true);
+        }
     }
 
     private void FlipController()
@@ -105,5 +174,22 @@ public class PlayerMove : MonoBehaviour
     {
         Gizmos.DrawLine(transform.position, new Vector3(transform.position.x,
             transform.position.y - groundCheck));
+    }
+    private void Shoot()
+    {
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            if (Score <= 0)
+            {
+                Score = 0;
+                return;
+            }
+            else if (Score > 0) 
+            {
+                Instantiate(_bullet, _bulletPos.position, Quaternion.identity, transform);
+                Score --;
+                Diem.text = "Coin: " + Score.ToString();
+            }
+        }
     }
 }

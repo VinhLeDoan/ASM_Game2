@@ -8,6 +8,9 @@ public class Boar : MonoBehaviour
     private Rigidbody2D _rb;
     public float _speedBoar;
 
+
+    int mau = 2;
+
     void Start()
     {
         _direction = -1;
@@ -28,6 +31,16 @@ public class Boar : MonoBehaviour
             _direction *= -1; //Đổi hướng
             _rb.gameObject.transform.localScale = new Vector3(_rb.gameObject.transform.localScale.x * -1, 1, 1);
         }
+        if (collision.gameObject.CompareTag("BulletCoin"))
+        {
+            mau--;
+            Destroy(collision.gameObject);
+            if (mau <= 0)
+            {
+                Destroy(gameObject);
+                Destroy(collision.gameObject);
+            }
+        }
         
     }
 
@@ -35,7 +48,6 @@ public class Boar : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            Destroy(collision.gameObject);
             Time.timeScale = 0.0f;
         }
     }

@@ -18,6 +18,7 @@ public class LoadScene : MonoBehaviour
     }
     public void loadScene()
     {
+        Time.timeScale = 1.0f;
         SceneManager.LoadScene(1);
     }
 }
