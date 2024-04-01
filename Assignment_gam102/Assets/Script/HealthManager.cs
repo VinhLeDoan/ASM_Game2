@@ -16,10 +16,17 @@ public class HealthManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P))
+
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        
+        if (collision.gameObject.CompareTag("BulletCoin"))
         {
             TakeDamage(50);
         }
+
     }
 
     public void TakeDamage(float damage)
