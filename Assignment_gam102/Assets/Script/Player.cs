@@ -31,11 +31,6 @@ public class PlayerMove : MonoBehaviour
 
     public GameObject panelEndGame;
 
-    //save
-    public static PlayerMove instance;
-    private const string SAVE_1 = "save_1";
-    private const string SAVE_2 = "save_2";
-    private const string SAVE_3 = "save_3";
 
     // Start is called before the first frame update
     void Start()
@@ -58,15 +53,7 @@ public class PlayerMove : MonoBehaviour
         fallDead();
 
     }
-    private void OnApplicationQuit()
-    {
-        this.SaveGame();
-    }
-    private void Awake()
-    {
-        if (PlayerMove.instance != null) Debug.Log("Only 1 Save allow");
-        PlayerMove.instance = this;
-    }
+    
     public void OnTriggerEnter2D(Collider2D collision)
     {
         Debug.Log("va cham vao: " + collision.gameObject.tag);
