@@ -55,6 +55,7 @@ public class PlayerMove : MonoBehaviour
         CollisionCheck();
         AnimatorController();
         Shoot();
+        fallDead();
 
     }
     private void OnApplicationQuit()
@@ -88,6 +89,12 @@ public class PlayerMove : MonoBehaviour
             panelEndGame.SetActive(true);
         }
         
+    }
+
+    public void fallDead()
+    {
+        if (transform.position.y < -10f)
+            panelEndGame.SetActive(true);
     }
 
     public void RestartGame()

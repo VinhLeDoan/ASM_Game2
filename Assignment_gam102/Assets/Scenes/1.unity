@@ -2265,7 +2265,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.9716981, g: 0.13747816, b: 0, a: 1}
+  m_Color: {r: 0, g: 0.972549, b: 0.00485219, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3000,7 +3000,7 @@ MonoBehaviour:
   rangeToDestroyObject: 60
   player: {fileID: 902905450}
   plant: {fileID: 6578675456158070015, guid: f12a6c818b0e2b141bb5043f506f4b08, type: 3}
-  Boar: {fileID: 7569191044408055373, guid: 1c2974d75e5afed4e94a2a0c7c371ccb, type: 3}
+  Boar: {fileID: 3030412572356508590, guid: 1c2974d75e5afed4e94a2a0c7c371ccb, type: 3}
 --- !u!1 &2085165260
 GameObject:
   m_ObjectHideFlags: 0
