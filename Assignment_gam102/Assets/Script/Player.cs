@@ -1,5 +1,6 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -26,8 +27,12 @@ public class PlayerMove : MonoBehaviour
     public GameObject _bullet;
     public Transform _bulletPos;
 
+    public int highScore;
+    public TextMeshProUGUI highScorePanel;
+    public Text highScoreText;
     public Text Diem;
     int Score = 0;
+
 
     public GameObject panelEndGame;
 
@@ -35,6 +40,9 @@ public class PlayerMove : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //lấy highscore ra từ registry
+        highScore = PlayerPrefs.GetInt("HighScore");
+        highScoreText.text = "High Score: " + highScore.ToString();
         Diem = GameObject.Find("Diem").GetComponent<Text>();
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
@@ -64,7 +72,9 @@ public class PlayerMove : MonoBehaviour
         }
         else if(collision.gameObject.CompareTag("Bullet"))
         {
+            Time.timeScale = 0f;
             panelEndGame.SetActive(true);
+            SaveHighScore();
         }
 
     }
@@ -72,15 +82,31 @@ public class PlayerMove : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Boar") || collision.gameObject.CompareTag("Flower"))
         {
+            Time.timeScale = 0f;
             panelEndGame.SetActive(true);
+            SaveHighScore();
         }
         
+    }
+
+    public void SaveHighScore()
+    {
+        if(Score > highScore)
+        {
+            highScore = Score;
+            PlayerPrefs.SetInt("HighScore", highScore);
+            highScorePanel.text = "High Score: " + highScore.ToString();
+        }
     }
 
     public void fallDead()
     {
         if (transform.position.y < -10f)
+        {
+
             panelEndGame.SetActive(true);
+            SaveHighScore();
+        }
     }
 
     public void RestartGame()
@@ -120,6 +146,7 @@ public class PlayerMove : MonoBehaviour
         {
             Time.timeScale = 0f;
             panelEndGame.SetActive(true);
+            SaveHighScore();
         }
     }
 
