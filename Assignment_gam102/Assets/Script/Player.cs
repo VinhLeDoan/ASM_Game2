@@ -38,7 +38,6 @@ public class PlayerMove : MonoBehaviour
         Diem = GameObject.Find("Diem").GetComponent<Text>();
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
-        this.LoadSaveGame();
     }
 
     // Update is called once per frame
@@ -96,21 +95,6 @@ public class PlayerMove : MonoBehaviour
         SceneManager.LoadScene(0);
     }
 
-    private string GetSaveName()
-    {
-        return PlayerMove.SAVE_1;
-    }
-    public void LoadSaveGame()
-    {
-        string stringSave = PlayerPrefs.GetString(this.GetSaveName());
-        Debug.Log("LoadSaveGame: " + stringSave);
-    }
-    public void SaveGame()
-    {
-        Debug.Log("SaveGame");
-        string stringSave = Score.ToString();
-        PlayerPrefs.SetString(this.GetSaveName(), stringSave);
-    }
 
 
     private void AnimatorController()
